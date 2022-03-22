@@ -1,4 +1,4 @@
-import * as postsAPI from '../api/getPhotos'; // api/posts 안의 함수 모두 불러오기
+import {getPhotos} from '../api/getPhotos'; // api/posts 안의 함수 모두 불러오기
 import {
   reducerUtils,
   handleAsyncActions,
@@ -16,7 +16,24 @@ const GET_PHOTOS_ERROR = 'GET_PHOTOS_ERROR';
 export const getPosts = () => ({ type: GET_PHOTOS });
 //get photos를 발생시켰다면!?
 
-const getPhotosSaga = createPromiseSaga(GET_PHOTOS, postsAPI.getPhotos);
+// const getPhotosSaga = createPromiseSaga(GET_PHOTOS, postsAPI.getPhotos);
+
+function* getPhotosSaga() {
+    try {
+    console.log("try start")
+      const posts = yield call(getPhotos); // call 을 사용하면 특정 함수를 호출하고, 결과물이 반환 될 때까지 기다려줄 수 있습니다.
+      yield put({
+        type: GET_PHOTOS_SUCCESS,
+        payload: posts
+      }); // 성공 액션 디스패치
+    } catch (e) {
+      yield put({
+        type: GET_PHOTOS_ERROR,
+        error: true,
+        payload: e
+      }); // 실패 액션 디스패치
+    }
+  }
 
 // 사가들을 합치기
 export function* postsSaga() {
@@ -36,7 +53,8 @@ export default function posts(state = initialState, action) {
     case GET_PHOTOS:
     case GET_PHOTOS_SUCCESS:
     case GET_PHOTOS_ERROR:
-      return handleAsyncActions(GET_PHOTOS, 'photos', true)(state, action);
+    console.log("action type is", action.type)
+    return handleAsyncActions(GET_PHOTOS, 'photos', true)(state, action);
     default:
       return state;
   }

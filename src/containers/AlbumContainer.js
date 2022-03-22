@@ -20,7 +20,7 @@ if (loading && !data) return <div>로딩중...</div>; // 로딩중이면서, 데
 if (error) return <div>에러 발생!</div>;
 if (!data) return null;
 
-return <div> 왜 아무것도 없을까</div>
+return <Album posts={data} />;
 
 //return <Album posts={data} />;
 }

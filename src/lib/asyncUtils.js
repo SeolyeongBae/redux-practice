@@ -1,5 +1,4 @@
-import { call, put } from 'redux-saga/effects';
-
+import { call, put } from "redux-saga/effects";
 
 // 프로미스를 기다렸다가 결과를 디스패치하는 사가
 export const createPromiseSaga = (type, promiseCreator) => {
@@ -31,77 +30,76 @@ export const createPromiseSagaById = (type, promiseCreator) => {
   };
 };
 
+// 리듀서에서 사용 할 수 있는 여러 유틸 함수들입니다.
+export const reducerUtils = {
+  // 초기 상태. 초기 data 값은 기본적으로 null 이지만 바꿀 수도 있다
 
-  
-  // 리듀서에서 사용 할 수 있는 여러 유틸 함수들입니다.
-  export const reducerUtils = {
-    // 초기 상태. 초기 data 값은 기본적으로 null 이지만 바꿀 수도 있다
+  initial: (initialData = null) => ({
+    loading: false,
+    data: initialData,
+    error: null,
+  }),
 
-    initial: (initialData = null) => ({
-      loading: false,
-      data: initialData,
-      error: null
-    }),
+  // 로딩중 상태. prevState의 경우엔 기본값은 null 이지만
+  // 따로 값을 지정하면 null 로 바꾸지 않고 다른 값을 유지시킬 수 있습니다.
+  loading: (prevState = null) => ({
+    loading: true,
+    data: prevState,
+    error: null,
+  }),
 
-    // 로딩중 상태. prevState의 경우엔 기본값은 null 이지만
-    // 따로 값을 지정하면 null 로 바꾸지 않고 다른 값을 유지시킬 수 있습니다.
-    loading: (prevState = null) => (
-      {
-      loading: true,
-      data: prevState,
-      error: null
-    }),
+  // 성공
+  success: (payload) => ({
+    loading: false,
+    data: payload,
+    error: null,
+  }),
 
-    // 성공
-    success: payload => ({
-      loading: false,
-      data: payload,
-      error: null
-    }),
-
-    // 실패
-    error: error => ({
-      loading: false,
-      data: null,
-      error: error
-    })
-  };
-  
+  // 실패
+  error: (error) => ({
+    loading: false,
+    data: null,
+    error: error,
+  }),
+};
 
 // 비동기 관련 액션들을 처리하는 리듀서를 만들어줍니다.
 // type 은 액션의 타입, key 는 상태의 key (예: posts, post) 입니다.
 
 // keepData : ??
 
-
-
 export const handleAsyncActions = (type, key, keepData = false) => {
   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
   return (state, action) => {
     switch (action.type) {
       case type:
-        console.log("does not success!!", 'data', state[key].data, 'keepData', keepData)
+        console.log(
+          "does not success!!",
+          "data",
+          state[key].data,
+          "keepData",
+          keepData,
+        );
         return {
           ...state,
-          [key]: reducerUtils.loading(keepData ? state[key].data : null)
+          [key]: reducerUtils.loading(keepData ? state[key].data : null),
           //state key의 null 검사를 위해서 and를 걸어줌.
         };
       case SUCCESS:
         return {
           ...state,
-          [key]: reducerUtils.success(action.payload)
+          [key]: reducerUtils.success(action.payload),
         };
       case ERROR:
         return {
           ...state,
-          [key]: reducerUtils.error(action.error)
+          [key]: reducerUtils.error(action.error),
         };
       default:
         return state;
     }
   };
 };
-
 
 // id별로 처리하는 유틸함수
 export const handleAsyncActionsById = (type, key, keepData = false) => {
@@ -116,25 +114,25 @@ export const handleAsyncActionsById = (type, key, keepData = false) => {
             ...state[key],
             [id]: reducerUtils.loading(
               // state[key][id]가 만들어져있지 않을 수도 있으니까 유효성을 먼저 검사 후 data 조회
-              keepData ? state[key][id] && state[key][id].data : null
-            )
-          }
+              keepData ? state[key][id] && state[key][id].data : null,
+            ),
+          },
         };
       case SUCCESS:
         return {
           ...state,
           [key]: {
             ...state[key],
-            [id]: reducerUtils.success(action.payload)
-          }
+            [id]: reducerUtils.success(action.payload),
+          },
         };
       case ERROR:
         return {
           ...state,
           [key]: {
             ...state[key],
-            [id]: reducerUtils.error(action.payload)
-          }
+            [id]: reducerUtils.error(action.payload),
+          },
         };
       default:
         return state;

@@ -72,14 +72,19 @@ export const createPromiseSagaById = (type, promiseCreator) => {
 // type 은 액션의 타입, key 는 상태의 key (예: posts, post) 입니다.
 
 // keepData : ??
+
+
+
 export const handleAsyncActions = (type, key, keepData = false) => {
   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
   return (state, action) => {
     switch (action.type) {
       case type:
+          console.log("does not success!!", state[key].data, keepData)
         return {
           ...state,
-          [key]: reducerUtils.loading(keepData ? state[key].data : null)
+          [key]: reducerUtils.loading(keepData ? state[key] && state[key].data : null)
+          //state key의 null 검사를 위해서 and를 걸어줌.
         };
       case SUCCESS:
         return {

@@ -1,7 +1,9 @@
 import React from 'react';
 
 
-function Album(){
+function Album({posts}){
+
+    console.log("post data is", posts);
     
     return(
         <div>

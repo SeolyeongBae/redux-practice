@@ -1,10 +1,11 @@
 import './App.css';
 import Album from './components/Album';
+import Gallery from './pages/Gallery';
 
 function App() {
   return (
     <>
-    <Album/>
+    <Gallery />
     <div> 
       redux-saga practice
     </div>

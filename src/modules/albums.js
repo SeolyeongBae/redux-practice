@@ -1,4 +1,4 @@
-import * as postsAPI from '../api/posts'; // api/posts 안의 함수 모두 불러오기
+import * as postsAPI from '../api/getPhotos'; // api/posts 안의 함수 모두 불러오기
 import {
   reducerUtils,
   handleAsyncActions,
@@ -14,7 +14,7 @@ const GET_PHOTOS_ERROR = 'GET_PHOTOS_ERROR';
 
 //saga
 export const getPosts = () => ({ type: GET_PHOTOS });
-
+//get photos를 발생시켰다면!?
 
 const getPhotosSaga = createPromiseSaga(GET_PHOTOS, postsAPI.getPhotos);
 
@@ -27,7 +27,8 @@ export function* postsSaga() {
 // initialState 쪽도 반복되는 코드를 initial() 함수를 사용해서 리팩토링 했습니다.
 const initialState = {
   posts: reducerUtils.initial(),
-  post: reducerUtils.initial()
+  post: reducerUtils.initial(),
+  photos : reducerUtils.initial()
 };
 
 export default function posts(state = initialState, action) {

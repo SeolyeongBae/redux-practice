@@ -14,9 +14,8 @@ function PhotoContainer({ postId }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("ddd", data);
     dispatch(getPost(postId));
-  }, [postId, dispatch, data]);
+  }, [postId, dispatch]);
 
   if (loading && !data) return <div>로딩중...</div>; // 로딩중이면서, 데이터가 없을 때에만 로딩중... 표시
   if (error) return <div>에러 발생!</div>;

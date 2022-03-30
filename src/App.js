@@ -3,12 +3,14 @@ import "./App.css";
 import Album from "./components/Album";
 import Gallery from "./pages/Gallery";
 import MainPage from "./pages/MainPage";
+import SearchPage from "./pages/SearchPage";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<MainPage />} />
       <Route path="gallery" element={<Gallery />} />
+      <Route path="search" element={<SearchPage />} />
       {/* <Route path="storage/:id" element={<Storage />} /> */}
     </Routes>
   );

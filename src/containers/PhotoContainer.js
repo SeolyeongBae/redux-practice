@@ -5,7 +5,7 @@ import Discription from "../components/Discription";
 
 function PhotoContainer({ postId }) {
   const { data, loading, error } = useSelector(
-    (state) => state.photoReducer.photo,
+    (state) => state.photoReducer.photo[postId],
   ) || {
     loading: false,
     data: null,
@@ -14,11 +14,11 @@ function PhotoContainer({ postId }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (data) return; // 포스트가 존재하면 아예 요청을 하지 않음
+    console.log("ddd", data);
     dispatch(getPost(postId));
   }, [postId, dispatch, data]);
 
-  if (loading) return <div>로딩중...</div>;
+  if (loading && !data) return <div>로딩중...</div>; // 로딩중이면서, 데이터가 없을 때에만 로딩중... 표시
   if (error) return <div>에러 발생!</div>;
   if (!data) return null;
 

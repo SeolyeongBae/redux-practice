@@ -108,13 +108,6 @@ export const handleAsyncActionsById = (type, key, keepData = false) => {
     const id = action.meta;
     switch (action.type) {
       case type:
-        console.log(
-          "does not success!!",
-          "data",
-          state[key].data,
-          "keepData",
-          keepData,
-        );
         return {
           ...state,
           [key]: {
@@ -126,6 +119,13 @@ export const handleAsyncActionsById = (type, key, keepData = false) => {
           },
         };
       case SUCCESS:
+        console.log(
+          "does not success!!",
+          "data",
+          state[key][id],
+          "keepData",
+          keepData,
+        );
         return {
           ...state,
           [key]: {

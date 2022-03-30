@@ -1,11 +1,12 @@
 import React from "react";
 
-function Discription() {
-  const title = "temp title";
-
+function Discription({ post }) {
   return (
     <div>
-      <h1>{title}</h1>
+      <div>
+        <img src={post.thumbnailUrl}></img>
+        <div> Title : {post.title}</div>
+      </div>
     </div>
   );
 }

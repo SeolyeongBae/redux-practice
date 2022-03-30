@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
+import MySearchBar from "../components/searchBar";
+import PhotoContainer from "../containers/PhotoContainer";
 
 function SearchPage() {
-  return <div> 검색 페이지입니다. </div>;
+  const [postID, setpostID] = useState("1");
+
+  const setID = (number) => {
+    setpostID(number);
+  };
+
+  return (
+    <>
+      <MySearchBar setID={setID} />
+      <PhotoContainer postId={parseInt(postID, 10)} />
+    </>
+  );
 }
 
 export default SearchPage;

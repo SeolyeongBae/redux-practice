@@ -7,7 +7,7 @@ export const getPhotos = () => {
   return axios.get("https://jsonplaceholder.typicode.com/photos");
 };
 
-export const getPhotosById = async (id) => {
+export const getPhotoById = async (id) => {
   const response = await axios.get(
     `https://jsonplaceholder.typicode.com/photos/${id}`,
   );

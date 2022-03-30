@@ -1,8 +1,10 @@
-import { getPhotos } from "../api/getPhotos"; // api/posts 안의 함수 모두 불러오기
+import { getPhotos, getPhotoById } from "../api/getPhotos"; // api/posts 안의 함수 모두 불러오기
 import {
   reducerUtils,
   handleAsyncActions,
   createPromiseSaga,
+  createPromiseSagaById,
+  handleAsyncActionsById,
 } from "../lib/asyncUtils";
 import { call, put, takeEvery } from "redux-saga/effects";
 
@@ -11,6 +13,10 @@ import { call, put, takeEvery } from "redux-saga/effects";
 const GET_PHOTOS = "GET_PHOTOS";
 const GET_PHOTOS_SUCCESS = "GET_PHOTOS_SUCCESS";
 const GET_PHOTOS_ERROR = "GET_PHOTOS_ERROR";
+
+const GET_PHOTO = "GET_PHOTO";
+const GET_PHOTO_SUCCESS = "GET_PHOTO_SUCCESS";
+const GET_PHOTO_ERROR = "GET_PHOTO_ERROR";
 
 //saga
 export const getPosts = () => ({ type: GET_PHOTOS });
@@ -34,10 +40,13 @@ function* getPhotosSaga() {
     }); // 실패 액션 디스패치
   }
 }
+export const getPost = (id) => ({ type: GET_PHOTO, payload: id, meta: id });
+const getPhotoSaga = createPromiseSagaById(GET_PHOTO, getPhotoById);
 
 // 사가들을 합치기
 export function* postsSaga() {
   yield takeEvery(GET_PHOTOS, getPhotosSaga);
+  yield takeEvery(GET_PHOTO, getPhotoSaga);
   //yield takeEvery(GET_POST, getPostSaga);
 }
 
@@ -46,6 +55,7 @@ const initialState = {
   //   posts: reducerUtils.initial(),
   //   post: reducerUtils.initial(),
   photos: reducerUtils.initial(),
+  photo: reducerUtils.initial(),
 };
 
 //posts로 인해 state.posts...
@@ -57,6 +67,11 @@ export default function photoReducer(state = initialState, action) {
     case GET_PHOTOS_ERROR:
       console.log("action type is", action.type);
       return handleAsyncActions(GET_PHOTOS, "photos", true)(state, action);
+    case GET_PHOTO:
+    case GET_PHOTO_SUCCESS:
+    case GET_PHOTO_ERROR:
+      console.log("state is", state);
+      return handleAsyncActionsById(GET_PHOTO, "photo", true)(state, action);
     default:
       return state;
   }

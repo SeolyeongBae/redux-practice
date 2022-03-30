@@ -6,3 +6,10 @@ export const getPhotos = () => {
   // const response = await axios.get('https://jsonplaceholder.typicode.com/photos');
   return axios.get("https://jsonplaceholder.typicode.com/photos");
 };
+
+export const getPhotosById = async (id) => {
+  const response = await axios.get(
+    `https://jsonplaceholder.typicode.com/photos/${id}`,
+  );
+  return response.data;
+};

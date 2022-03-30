@@ -1,20 +1,20 @@
-import './App.css';
-import Album from './components/Album';
-import Gallery from './pages/Gallery';
+import { Route, Routes } from "react-router-dom";
+import "./App.css";
+import Album from "./components/Album";
+import Gallery from "./pages/Gallery";
+import MainPage from "./pages/MainPage";
 
 function App() {
   return (
-    <>
-    <Gallery />
-    <div> 
-      redux-saga practice
-    </div>
-    </>
+    <Routes>
+      <Route path="/" element={<MainPage />} />
+      <Route path="gallery" element={<Gallery />} />
+      {/* <Route path="storage/:id" element={<Storage />} /> */}
+    </Routes>
   );
 }
 
 export default App;
-
 
 /*
 photo 포함, react, redux middleware 사용해서 
